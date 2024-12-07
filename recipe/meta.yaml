@@ -19,6 +19,7 @@ source:
     - 0007-Remove-optional-dependencies-to-slim-package.patch
     - 0008-Adjust-compilation-of-immapp.patch
     - single_patch.patch
+    # Adapted from
     # https://github.com/pthom/immvision/commit/733334da4ab43d9efd54ef1df0344cce39fc4625
     - drop_float16.patch
 
