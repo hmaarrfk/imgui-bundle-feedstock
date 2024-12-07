@@ -1,0 +1,92 @@
+From 733334da4ab43d9efd54ef1df0344cce39fc4625 Mon Sep 17 00:00:00 2001
+From: Pascal Thomet <pthomet@gmail.com>
+Date: Thu, 5 Dec 2024 23:06:14 +0100
+Subject: [PATCH] drop support for cv::float16_t (API too unstable)
+
+---
+ external/immvision/immvision/src/immvision/internal/cv/colormap.cpp          | 10 ++++++----
+ external/immvision/immvision/src/immvision/internal/cv/matrix_info_utils.cpp |  8 ++++----
+ external/immvision/immvision/src_all_in_one/immvision/immvision.cpp          | 16 ++++++++--------
+ 3 files changed, 18 insertions(+), 16 deletions(-)
+
+diff --git a/external/immvision/immvision/src/immvision/internal/cv/colormap.cpp b/external/immvision/immvision/src/immvision/internal/cv/colormap.cpp
+index 2ce15ec..2dfb73c 100644
+--- a/external/immvision/immvision/src/immvision/internal/cv/colormap.cpp
++++ b/external/immvision/immvision/src/immvision/internal/cv/colormap.cpp
+@@ -12,6 +12,8 @@
+ #include <opencv2/core.hpp>
+ #include <array>
+ #include <optional>
++#include <math.h>
++#include <stdio.h>
+ 
+ namespace ImmVision
+ {
+@@ -252,10 +254,10 @@ namespace ImmVision
+                 return _ApplyColormap<float>(m, settings);
+             else if (m.depth() == CV_64F)
+                 return _ApplyColormap<double>(m, settings);
+-#ifdef CV_16F
+-            else if (m.depth() == CV_16F)
+-                return _ApplyColormap<cv::float16_t>(m, settings);
+-#endif
++// #ifdef CV_16F
++//             else if (m.depth() == CV_16F)
++//                 return _ApplyColormap<cv::float16_t>(m, settings);
++// #endif
+             else
+             {
+                 assert(false);
+diff --git a/external/immvision/immvision/src/immvision/internal/cv/matrix_info_utils.cpp b/external/immvision/immvision/src/immvision/internal/cv/matrix_info_utils.cpp
+index 312c068..2dd23c4 100644
+--- a/external/immvision/immvision/src/immvision/internal/cv/matrix_info_utils.cpp
++++ b/external/immvision/immvision/src/immvision/internal/cv/matrix_info_utils.cpp
+@@ -79,10 +79,10 @@ namespace ImmVision
+                 return GrabValuesFromBuffer<uint16_t>(ptr, nb_channels);
+             else if (depth == CV_16S)
+                 return GrabValuesFromBuffer<int16_t>(ptr, nb_channels);
+-#if CV_MAJOR_VERSION >= 4
+-                else if (depth == CV_16F)
+-                return GrabValuesFromBuffer<cv::float16_t>(ptr, nb_channels);
+-#endif
++// #if CV_MAJOR_VERSION >= 4
++//                 else if (depth == CV_16F)
++//                 return GrabValuesFromBuffer<cv::float16_t>(ptr, nb_channels);
++// #endif
+             else if (depth == CV_32S)
+                 return GrabValuesFromBuffer<int32_t>(ptr, nb_channels);
+             else if (depth == CV_32F)
+diff --git a/external/immvision/immvision/src_all_in_one/immvision/immvision.cpp b/external/immvision/immvision/src_all_in_one/immvision/immvision.cpp
+index 479e8de..fa4d55e 100644
+--- a/external/immvision/immvision/src_all_in_one/immvision/immvision.cpp
++++ b/external/immvision/immvision/src_all_in_one/immvision/immvision.cpp
+@@ -4845,10 +4845,10 @@ namespace ImmVision
+                 return _ApplyColormap<float>(m, settings);
+             else if (m.depth() == CV_64F)
+                 return _ApplyColormap<double>(m, settings);
+-#ifdef CV_16F
+-            else if (m.depth() == CV_16F)
+-                return _ApplyColormap<cv::float16_t>(m, settings);
+-#endif
++// #ifdef CV_16F
++//             else if (m.depth() == CV_16F)
++//                 return _ApplyColormap<cv::float16_t>(m, settings);
++// #endif
+             else
+             {
+                 assert(false);
+@@ -6039,10 +6039,10 @@ namespace ImmVision
+                 return GrabValuesFromBuffer<uint16_t>(ptr, nb_channels);
+             else if (depth == CV_16S)
+                 return GrabValuesFromBuffer<int16_t>(ptr, nb_channels);
+-#if CV_MAJOR_VERSION >= 4
+-                else if (depth == CV_16F)
+-                return GrabValuesFromBuffer<cv::float16_t>(ptr, nb_channels);
+-#endif
++// #if CV_MAJOR_VERSION >= 4
++//                 else if (depth == CV_16F)
++//                 return GrabValuesFromBuffer<cv::float16_t>(ptr, nb_channels);
++// #endif
+             else if (depth == CV_32S)
+                 return GrabValuesFromBuffer<int32_t>(ptr, nb_channels);
+             else if (depth == CV_32F)
