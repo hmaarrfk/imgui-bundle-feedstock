@@ -24,7 +24,7 @@ source:
     - drop_float16.patch
 
 build:
-  number: 0
+  number: 1
   # hmaarrfk -- Version 1.5.2 -- Nov 30, 2024
   # windows runs out of memory on our CIs....
   # One would think that nanobind would help reduce the memory requirements of pybind
@@ -58,9 +58,10 @@ requirements:
     - cmake
     # - glad2-cmake
     - ninja
+    # Helps find plutovg, and plutosvg
+    - pkg-config
     # CMake will complain if it can't find make
     - make                                   # [unix]
-    - pkg-config                             # [unix]
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - nanobind                               # [build_platform != target_platform]
@@ -72,6 +73,7 @@ requirements:
     - nanobind
     - scikit-build-core
     - glfw
+    - freetype
     # Avoid downloading Qt (a dependency of opencv) for the CI
     # But it doesn't exist for Windows (yet)
     - libopencv *=headless*   # [not win]
